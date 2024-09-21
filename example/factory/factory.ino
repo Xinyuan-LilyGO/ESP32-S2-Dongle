@@ -209,10 +209,23 @@ void setup(void)
   tft.fillScreen(TFT_BLACK);
   tft.pushImage(0, 0, 240, 135, Lilygo1);
 
+#if ESP_ARDUINO_VERSION >= ESP_ARDUINO_VERSION_VAL(3, 0, 0)
+  // ESP-IDF v3.0 and above
   ledcAttach(TFT_BL, 4000, 8);
+#else
+  // ESP-IDF v2.x and below
+  ledcSetup(0, 4000, 8);
+  ledcAttachPin(TFT_BL, 0);
+#endif
   for (int dutyCycle = 0; dutyCycle <= 255; dutyCycle = dutyCycle + 5) //逐渐点亮
   {
+#if ESP_ARDUINO_VERSION >= ESP_ARDUINO_VERSION_VAL(3, 0, 0)
+    // ESP-IDF v3.0 and above
     ledcWrite(TFT_BL, dutyCycle);
+#else
+    // ESP-IDF v2.x and below
+    ledcWrite(0, dutyCycle);
+#endif
     delay(5);
   }
   
