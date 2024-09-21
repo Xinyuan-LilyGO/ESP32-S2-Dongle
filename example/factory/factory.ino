@@ -209,13 +209,13 @@ void setup(void)
   tft.fillScreen(TFT_BLACK);
   tft.pushImage(0, 0, 240, 135, Lilygo1);
 
-  ledcSetup(0, 4000, 8);
-  ledcAttachPin(TFT_BL, 0);
+  ledcAttach(TFT_BL, 4000, 8);
   for (int dutyCycle = 0; dutyCycle <= 255; dutyCycle = dutyCycle + 5) //逐渐点亮
   {
-    ledcWrite(0, dutyCycle);
+    ledcWrite(TFT_BL, dutyCycle);
     delay(5);
   }
+  
   delay(3000);
   print_psram_and_flash();
   delay(3000);
